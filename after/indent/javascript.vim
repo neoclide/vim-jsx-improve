@@ -103,7 +103,7 @@ function! GetJsxIndent()
     let ind = XmlIndentGet(v:lnum, 0)
     let currline = getline(v:lnum)
 
-    if currline =~# '^\s*}'
+    if currline =~# '^\s*{'
       let ind = ind - s:sw()
     endif
 
