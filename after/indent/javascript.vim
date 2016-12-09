@@ -102,20 +102,30 @@ function! GetJsxIndent()
         \ SynJSXContinues(cursyn, prevsyn)
     let ind = XmlIndentGet(v:lnum, 0)
     let currline = getline(v:lnum)
+    let preline = getline(v:lnum - 1)
 
+    " Open brace
     if currline =~# '^\s*{'
-      let ind = ind - s:sw()
+      return ind - s:sw()
     endif
 
-    if getline(v:lnum - 1) =~? s:endtag
-      let ind = ind + s:sw()
+    " return ( | return (
+    "   <div>  |   <div>
+    "   </div> |   </div>
+    " ##);     | ); <--
+    if currline =~# 'return\s\+('
+      return ind + s:sw()
+    endif
+
+    if preline =~? s:endtag || preline =~? '\v^\s*\}+$'
+      return ind + s:sw()
     endif
 
 
     " <div           | <div
     "   hoge={       |   hoge={
     "   <div></div>  |   ##<div></div>
-    if SynJsxEscapeJs(prevsyn) && !(getline(v:lnum - 1) =~? '}') && getline(v:lnum - 1) =~? '{'
+    if SynJsxEscapeJs(prevsyn) && !(preline =~? '}') && preline =~? '{'
       let ind = ind + s:sw()
     endif
 
@@ -123,19 +133,11 @@ function! GetJsxIndent()
     "   hoge={        |   hoge={
     "     <div></div> |     <div></div>
     "     }           |   }##
-    if SynJsxEscapeJs(cursyn) && getline(v:lnum) =~? '}' && !(getline(v:lnum) =~? '{')
+    if currline =~? '}$' && !(currline =~? '{')
       let ind = ind - s:sw()
     endif
 
-    " return ( | return (
-    "   <div>  |   <div>
-    "   </div> |   </div>
-    " ##);     | ); <--
-    if getline(v:lnum) =~# 'return\s\+('
-      let ind = ind + s:sw()
-    endif
-
-    if getline(v:lnum) =~# '^\s*)' && SynJSXCloseTag(prevsyn)
+    if currline =~# '^\s*)' && SynJSXCloseTag(prevsyn)
       let ind = ind - s:sw()
     endif
   else
