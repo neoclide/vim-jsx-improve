@@ -6,19 +6,9 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if exists('b:did_indent')
-  let s:did_indent = b:did_indent
-  unlet b:did_indent
-endif
-
-runtime! indent/xml.vim
-
 let s:keepcpo = &cpo
 set cpo&vim
-
-if exists('s:did_indent')
-  let b:did_indent = s:did_indent
-endif
+let b:did_indent = 1
 
 setlocal indentexpr=GetJsxIndent()
 setlocal indentkeys=0{,0},0),0],0\,,!^F,o,O,e,*<Return>,<>>,<<>,/
@@ -97,11 +87,10 @@ function! GetJsxIndent()
   let cursyn  = SynSOL(v:lnum)
   let prevsyn = SynEOL(v:lnum - 1)
   let nextsyn = SynEOL(v:lnum + 1)
+  let currline = getline(v:lnum)
 
-  if (SynXMLish(prevsyn) || SynJSXBlockEnd(prevsyn)) &&
-        \ SynJSXContinues(cursyn, prevsyn)
+  if (SynXMLish(prevsyn) || currline =~# '\v\s*\<') && SynJSXContinues(cursyn, prevsyn)
     let ind = XmlIndentGet(v:lnum, 0)
-    let currline = getline(v:lnum)
     let preline = getline(v:lnum - 1)
 
     " Open brace
@@ -148,10 +137,75 @@ function! GetJsxIndent()
       let ind = GetJavascriptIndent()
     endif
   endif
+  return ind
+endfunction
+
+if !exists('b:xml_indent_open')
+  let b:xml_indent_open = '.\{-}<\a'
+endif
+
+if !exists('b:xml_indent_close')
+  let b:xml_indent_close = '.\{-}</'
+endif
+
+function! <SID>XmlIndentWithPattern(line, pat)
+  let s = substitute('x'.a:line, a:pat, "\1", 'g')
+  return strlen(substitute(s, "[^\1].*$", '', ''))
+endfunction
+
+" [-- return the sum of indents of a:lnum --]
+function! <SID>XmlIndentSum(lnum, style, add)
+  let line = getline(a:lnum)
+  if a:style == match(line, '^\s*</')
+    return (&sw *
+          \  (<SID>XmlIndentWithPattern(line, b:xml_indent_open)
+          \ - <SID>XmlIndentWithPattern(line, b:xml_indent_close)
+          \ - <SID>XmlIndentWithPattern(line, '.\{-}/>'))) + a:add
+  else
+    return a:add
+  endif
+endfunction
+
+" [-- check if it's xml --]
+function! <SID>XmlIndentSynCheck(lnum)
+  if '' != &syntax
+    let syn1 = synIDattr(synID(a:lnum, 1, 1), 'name')
+    let syn2 = synIDattr(synID(a:lnum, strlen(getline(a:lnum)) - 1, 1), 'name')
+    if '' != syn1 && syn1 !~ 'xml' && '' != syn2 && syn2 !~ 'xml'
+      " don't indent pure non-xml code
+      return 0
+    elseif syn1 =~ '^xmlComment' && syn2 =~ '^xmlComment'
+      " indent comments specially
+      return -1
+    endif
+  endif
+  return 1
+endfunction
+
+function! XmlIndentGet(lnum, use_syntax_check)
+  " Find a non-empty line above the current line.
+  let lnum = prevnonblank(a:lnum - 1)
+
+  " Hit the start of the file, use zero indent.
+  if lnum == 0
+    return 0
+  endif
+
+  if a:use_syntax_check
+    let check_lnum = <SID>XmlIndentSynCheck(lnum)
+    let check_alnum = <SID>XmlIndentSynCheck(a:lnum)
+    if 0 == check_lnum || 0 == check_alnum
+      return indent(a:lnum)
+    elseif -1 == check_lnum || -1 == check_alnum
+      return -1
+    endif
+  endif
+
+  let ind = <SID>XmlIndentSum(lnum, -1, indent(lnum))
+  let ind = <SID>XmlIndentSum(a:lnum, 0, ind)
 
   return ind
 endfunction
 
 let &cpo = s:keepcpo
 unlet s:keepcpo
-
