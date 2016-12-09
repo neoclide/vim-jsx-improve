@@ -22,6 +22,7 @@ Use pathogen or vundle is recommended. Vundle:
 ![2016-12-10 01_27_59](https://cloud.githubusercontent.com/assets/251450/21058283/26d3b946-be78-11e6-8b1e-78e146ec3496.gif)
 
 The colorscheme is [gruvbox](https://github.com/morhetz/gruvbox)
+
 The keystroke visualizer is [keycastr](https://github.com/sdeken/keycastr)
 
 ### Feed back welcome
