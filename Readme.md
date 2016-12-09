@@ -11,6 +11,9 @@ Fiexed syntax highlight and indent for React jsx files.
 This plugin have no dependency, all the code you need for jsx and javascript is
 included.
 
+**Note:** you need to disable **vim-javascript** plugin if have installed, I have to
+change some highlight group to make it works with jsx.
+
 ### Installation
 
 Use pathogen or vundle is recommended. Vundle:
