@@ -89,7 +89,7 @@ function! GetJsxIndent()
   let nextsyn = SynEOL(v:lnum + 1)
   let currline = getline(v:lnum)
 
-  if (SynXMLish(prevsyn) || currline =~# '\v\s*\<') && SynJSXContinues(cursyn, prevsyn)
+  if (SynXMLish(prevsyn) || currline =~# '\v^\s*\<') && SynJSXContinues(cursyn, prevsyn)
     let ind = XmlIndentGet(v:lnum, 0)
     let preline = getline(v:lnum - 1)
 
@@ -101,8 +101,8 @@ function! GetJsxIndent()
     " return ( | return (
     "   <div>  |   <div>
     "   </div> |   </div>
-    " ##);     | ); <--
-    if currline =~# 'return\s\+('
+    " ##);     | );
+    if preline =~# 'return\s\+('
       return ind + s:sw()
     endif
 
