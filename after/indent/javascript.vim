@@ -5,10 +5,11 @@
 " Maintainer: Qiming <chemzqm@gmail.com>
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let s:keepcpo = &cpo
 set cpo&vim
 let b:did_indent = 1
+
+if !exists('*GetJavascriptIndent') | finish | endif
 
 setlocal indentexpr=GetJsxIndent()
 setlocal indentkeys=0{,0},0),0],0\,,!^F,o,O,e,*<Return>,<>>,<<>,/
@@ -23,15 +24,8 @@ else
   endfunction
 endif
 
-let s:endtag = '^\s*\/\?>\s*;\='
 let s:real_endtag = '\s*<\/\+[A-Za-z]*>'
 let s:return_block = '\s*return\s\+('
-
-let s:has_vim_javascript = exists('*GetJavascriptIndent')
-
-let s:true = !0
-let s:false = 0
-
 function! SynSOL(lnum)
   return map(synstack(a:lnum, 1), 'synIDattr(v:val, "name")')
 endfunction
@@ -63,14 +57,6 @@ function! SynJSXCloseTag(syns)
   return len(filter(copy(a:syns), 'v:val ==# "jsxCloseTag"'))
 endfunction
 
-function! SynJsxAttrib(syns)
-  return len(filter(copy(a:syns), 'v:val ==# "jsxAttrib"'))
-endfunction
-
-function! SynJsxTag(syns)
-  return len(filter(copy(a:syns), 'v:val ==# "jsxTag"'))
-endfunction
-
 function! SynJsxEscapeJs(syns)
   return len(filter(copy(a:syns), 'v:val ==# "jsxEscapeJs"'))
 endfunction
@@ -90,31 +76,60 @@ function! GetJsxIndent()
   let currline = getline(v:lnum)
 
   if (SynXMLish(prevsyn) || currline =~# '\v^\s*\<') && SynJSXContinues(cursyn, prevsyn)
-    let ind = XmlIndentGet(v:lnum, 0)
     let preline = getline(v:lnum - 1)
 
-    " Open brace
-    if currline =~# '^\s*{'
-      return ind - s:sw()
+    if currline =~# '\v^\s*\/?\>'
+      return preline =~# '\v^\s*\<' ? indent(v:lnum - 1) : indent(v:lnum - 1) - s:sw()
+    endif
+
+    if preline =~# '\v\{\s*$' && preline !~# '\v^\s*\<'
+      return currline =~# '\v^\s*\}' ? indent(v:lnum - 1) : indent(v:lnum - 1) + s:sw()
+    endif
+
+    " return (      | return (     | return (
+    "   <div></div> |   <div       |   <div
+    "     {}        |     style={  |     style={
+    "   <div></div> |     }        |     }
+    " )             |     foo="bar"|   ></div>
+    if preline =~# '\v\}\s*$'
+      if currline =~# '\v^\s*\<\/'
+        return indent(v:lnum - 1) - s:sw()
+      endif
+      let ind = indent(v:lnum - 1)
+      if preline =~# '\v^\s*\<'
+        let ind = ind + s:sw()
+      endif
+      if currline =~# '\v^\s*\/?\>'
+        let ind = ind - s:sw()
+      endif
+      return ind
     endif
 
     " return ( | return (
     "   <div>  |   <div>
     "   </div> |   </div>
     " ##);     | );
-    if preline =~# 'return\s\+('
-      return ind + s:sw()
+    if preline =~# '\v(\s?|\k?)\($'
+      return indent(v:lnum - 1) + s:sw()
     endif
 
-    if preline =~? s:endtag || preline =~? '\v^\s*\}+$'
-      return ind + s:sw()
-    endif
-
+    let ind = XmlIndentGet(v:lnum)
 
     " <div           | <div
     "   hoge={       |   hoge={
     "   <div></div>  |   ##<div></div>
-    if SynJsxEscapeJs(prevsyn) && !(preline =~? '}') && preline =~? '{'
+    if SynJsxEscapeJs(prevsyn) && preline =~# '\v\{\s*$'
+      let ind = ind + s:sw()
+    endif
+
+    " />
+    if preline =~# '\v^\s*\/?\>$'
+      let ind = currline =~# '\v^\s*\<\/' ? ind : ind + s:sw()
+    " }> or }}\> or }}>
+    elseif preline =~# '\v^\s*\}?\}\s*\/?\>$'
+      let ind = ind + s:sw()
+    " ></a
+    elseif preline =~# '\v^\s*\>\<\/\a'
       let ind = ind + s:sw()
     endif
 
@@ -122,7 +137,7 @@ function! GetJsxIndent()
     "   hoge={        |   hoge={
     "     <div></div> |     <div></div>
     "     }           |   }##
-    if currline =~? '}$' && !(currline =~? '{')
+    if currline =~# '}$' && !(currline =~# '\v\{')
       let ind = ind - s:sw()
     endif
 
@@ -130,23 +145,13 @@ function! GetJsxIndent()
       let ind = ind - s:sw()
     endif
   else
-    let prevline = getline(v:lnum - 1)
-    if prevline =~# s:return_block && getline(v:lnum) !~# '^\s*)'
-      let ind = indent(v:lnum - 1) + s:sw()
-    else
-      let ind = GetJavascriptIndent()
-    endif
+    let ind = GetJavascriptIndent()
   endif
   return ind
 endfunction
 
-if !exists('b:xml_indent_open')
-  let b:xml_indent_open = '.\{-}<\a'
-endif
-
-if !exists('b:xml_indent_close')
-  let b:xml_indent_close = '.\{-}</'
-endif
+let b:xml_indent_open = '.\{-}<\a'
+let b:xml_indent_close = '.\{-}</'
 
 function! <SID>XmlIndentWithPattern(line, pat)
   let s = substitute('x'.a:line, a:pat, "\1", 'g')
@@ -166,44 +171,15 @@ function! <SID>XmlIndentSum(lnum, style, add)
   endif
 endfunction
 
-" [-- check if it's xml --]
-function! <SID>XmlIndentSynCheck(lnum)
-  if '' != &syntax
-    let syn1 = synIDattr(synID(a:lnum, 1, 1), 'name')
-    let syn2 = synIDattr(synID(a:lnum, strlen(getline(a:lnum)) - 1, 1), 'name')
-    if '' != syn1 && syn1 !~ 'xml' && '' != syn2 && syn2 !~ 'xml'
-      " don't indent pure non-xml code
-      return 0
-    elseif syn1 =~ '^xmlComment' && syn2 =~ '^xmlComment'
-      " indent comments specially
-      return -1
-    endif
-  endif
-  return 1
-endfunction
-
-function! XmlIndentGet(lnum, use_syntax_check)
+function! XmlIndentGet(lnum)
   " Find a non-empty line above the current line.
   let lnum = prevnonblank(a:lnum - 1)
 
   " Hit the start of the file, use zero indent.
-  if lnum == 0
-    return 0
-  endif
-
-  if a:use_syntax_check
-    let check_lnum = <SID>XmlIndentSynCheck(lnum)
-    let check_alnum = <SID>XmlIndentSynCheck(a:lnum)
-    if 0 == check_lnum || 0 == check_alnum
-      return indent(a:lnum)
-    elseif -1 == check_lnum || -1 == check_alnum
-      return -1
-    endif
-  endif
+  if lnum == 0 | return 0 | endif
 
   let ind = <SID>XmlIndentSum(lnum, -1, indent(lnum))
   let ind = <SID>XmlIndentSum(a:lnum, 0, ind)
-
   return ind
 endfunction
 
