@@ -2,13 +2,21 @@ export default class app {
   render() {
     // indent after return
     return (
-      <div></div>
       <div className={cx(props.className, style.calendar)}
         style={{
           height: 100,
           width: 100
         }}
       />
+      <div render={() => {
+        console.log(3)
+      }} />
+      <div render={() => {
+        console.log(3)
+      }} />
+      <div render={() => {
+        console.log(3)
+      }} />
       <div style={
           height: 50
       }/>
