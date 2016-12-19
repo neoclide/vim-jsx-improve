@@ -26,8 +26,10 @@ export default class app {
       ></div>
       <div
         style={
+          width: 100,
+          height: 100
         }
-        x="a"
+        x="fw"
       />
       <div
         style={
@@ -91,7 +93,7 @@ class Hoge extends React.Component {
                 ></div>
               }
             />
-        </bar>
+          </bar>
         }
       >
         <span>hoge</span>
@@ -123,7 +125,7 @@ export const Hoge = () => (
     <div
       hoge="aa"
     />
-</div>
+  </div>
 )
 
 ReactDOM.render(

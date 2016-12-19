@@ -87,7 +87,7 @@ class MarkdownEditor extends React.Component {
           className="content"
           dangerouslySetInnerHTML={this.getRawMarkup()}
         />
-    </div>
+      </div>
     );
   }
 }

@@ -124,7 +124,8 @@ function! GetJsxIndent()
 
     " />
     if preline =~# '\v^\s*\/?\>$'
-      let ind = currline =~# '\v^\s*\<\/' ? ind : ind + s:sw()
+      "let ind = currline =~# '\v^\s*\<\/' ? ind : ind + s:sw()
+      let ind = ind + s:sw()
     " }> or }}\> or }}>
     elseif preline =~# '\v^\s*\}?\}\s*\/?\>$'
       let ind = ind + s:sw()
