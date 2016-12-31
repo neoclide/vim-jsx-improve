@@ -17,12 +17,12 @@ class TodoApp extends React.Component {
   render() {
     return (
       <div>
-        <h3>TODO</h3>
-        <TodoList items={this.state.items} />
-        <form onSubmit={this.handleSubmit}>
-          <input onChange={this.handleChange} value={this.state.text} />
-          <button>{'Add #' + (this.state.items.length + 1)}</button>
-        </form>
+      <h3>TODO</h3>
+      <TodoList items={this.state.items} />
+      <form onSubmit={this.handleSubmit}>
+      <input onChange={this.handleChange} value={this.state.text} />
+      <button>{'Add #' + (this.state.items.length + 1)}</button>
+      </form>
       </div>
     );
   }
@@ -77,16 +77,16 @@ class MarkdownEditor extends React.Component {
   render() {
     return (
       <div className="MarkdownEditor">
-        <h3>Input</h3>
-        <textarea
-          onChange={this.handleChange}
-          ref="textarea"
-          defaultValue={this.state.value} />
-        <h3>Output</h3>
-        <div
-          className="content"
-          dangerouslySetInnerHTML={this.getRawMarkup()}
-        />
+      <h3>Input</h3>
+      <textarea
+        onChange={this.handleChange}
+        ref="textarea"
+        defaultValue={this.state.value} />
+      <h3>Output</h3>
+      <div
+        className="content"
+        dangerouslySetInnerHTML={this.getRawMarkup()}
+      />
       </div>
     );
   }
