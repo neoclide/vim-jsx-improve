@@ -113,7 +113,7 @@ function! GetJsxIndent()
       return indent(v:lnum - 1) + s:sw()
     endif
 
-    let ind = XmlIndentGet(v:lnum)
+    let ind = s:XmlIndentGet(v:lnum)
 
     " <div           | <div
     "   hoge={       |   hoge={
@@ -172,7 +172,7 @@ function! <SID>XmlIndentSum(lnum, style, add)
   endif
 endfunction
 
-function! XmlIndentGet(lnum)
+function! <SID>XmlIndentGet(lnum)
   " Find a non-empty line above the current line.
   let lnum = prevnonblank(a:lnum - 1)
 
