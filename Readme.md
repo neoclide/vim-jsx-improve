@@ -6,7 +6,7 @@ Javscript syntax from [pangloss/vim-javascript](https://github.com/pangloss/vim-
 
 Jsx highlight and indent code changed from [MaxMEllon/vim-jsx-pretty](https://github.com/MaxMEllon/vim-jsx-pretty)
 
-* Fiexed syntax highlight and indent for React jsx files.
+* Fixed syntax highlight and indent for React jsx files.
 * Works well with xml.vim
 
 This plugin have no dependency, all the code you need for jsx and javascript is
