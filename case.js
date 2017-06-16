@@ -13,49 +13,49 @@ export default class app {
         }}></div>
       <div render={() => {
       }} />
-    <div style={
-      height: 50
-    }/>
-  <div
-    style={
-    }
-  ></div>
-  <div
-    style={
-      width: 100,
-      height: 100
-    }
-    x="fw"
-  />
-  <div
-    style={
-    }
-    x="a"
-  ></div>
-</div>
-)
-}
-render() {
-  // indent after return
-  return <div></div>
-}
-render() {
-  return (
-    <div></div>
-  )
-}
-render() {
-  // do block
-  return (
-    <div>
-      {do {
-        if (1) {
-          <span></span>
+      <div style={
+          height: 50
+      }/>
+      <div
+        style={
         }
-      }}
+      ></div>
+      <div
+        style={
+          width: 100,
+          height: 100
+        }
+        x="fw"
+      />
+      <div
+        style={
+        }
+        x="a"
+      ></div>
     </div>
-  )
-}
+    )
+  }
+  render() {
+    // indent after return
+    return <div></div>
+  }
+  render() {
+    return (
+      <div></div>
+    )
+  }
+  render() {
+    // do block
+    return (
+      <div>
+        {do {
+          if (1) {
+            <span></span>
+          }
+        }}
+      </div>
+    )
+  }
 }
 class Hoge extends React.Component {
   constructor(props) {
@@ -146,3 +146,15 @@ const hoge = () => {
 }
 
 export default Hoge;
+
+ReactDOM.render(
+  <div>
+    <div>
+      {abc}
+      {abc}
+    </div>
+    <div></div>
+    <div></div>
+  </div>,
+  document.getElementById('body');
+)
