@@ -33,7 +33,7 @@ syntax region jsxRegion
       \ end=+\s*,\@=+
       \ end=+\s\+:\@=+
       \ fold
-      \ contains=jsBlock,jsxTag,jsxCloseTag,jsxComment,
+      \ contains=jsBlock,jsxTag,jsxCloseTag,jsxComment,jsxEscapeJs,
                 \@Spell
       \ keepend
       \ extend
@@ -99,8 +99,8 @@ syntax region jsxString contained start=+'+ end=+'+ contains=jsxEntity,@Spell di
 "          s~~~~~~~~~~~~~~e
 syntax region jsxEscapeJs matchgroup=jsxAttributeBraces
     \ contained
-    \ start=+=\@<={+
-    \ end=+}\ze\%(\/\|\n\|\s\|>\)+
+    \ start=+{+
+    \ end=+}\ze\%(\/\|\n\|\s\|<\|>\)+
     \ contains=TOP
     \ keepend
     \ extend
