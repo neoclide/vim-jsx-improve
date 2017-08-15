@@ -102,17 +102,28 @@ syntax match jsxElseOperator +:+
 
 syntax cluster jsExpression add=jsxRegion
 
-highlight def link jsxTagName htmlTagName
-highlight def link jsxEqual htmlTag
 highlight def link jsxString String
 highlight def link jsxNameSpace Function
 highlight def link jsxComment Error
-highlight def link jsxAttrib htmlArg
 highlight def link jsxEscapeJs jsxEscapeJs
-highlight def link jsxTag htmlTag
-highlight def link jsxEndTag htmlTag
-highlight def link jsxEndString htmlTagName
-highlight def link jsxAttributeBraces htmlTag
+
+if hlexists('htmlTag')
+  highlight def link jsxTagName htmlTagName
+  highlight def link jsxEqual htmlTag
+  highlight def link jsxAttrib htmlArg
+  highlight def link jsxTag htmlTag
+  highlight def link jsxEndTag htmlTag
+  highlight def link jsxEndString htmlTagName
+  highlight def link jsxAttributeBraces htmlTag
+else
+  highlight def link jsxTagName Statement
+  highlight def link jsxEndString Statement
+  highlight def link jsxEqual Function
+  highlight def link jsxTag Function
+  highlight def link jsxEndTag Function
+  highlight def link jsxAttrib Type
+  highlight def link jsxAttributeBraces Special
+endif
 
 let b:current_syntax = 'javascript.jsx'
 
