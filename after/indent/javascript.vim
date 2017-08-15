@@ -54,7 +54,7 @@ function! SynJSXDepth(syns)
 endfunction
 
 function! SynJSXCloseTag(syns)
-  return len(filter(copy(a:syns), 'v:val ==# "jsxCloseTag"'))
+  return len(filter(copy(a:syns), 'v:val ==# "jsxEndTag"'))
 endfunction
 
 function! SynJsxEscapeJs(syns)

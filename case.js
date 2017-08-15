@@ -13,23 +13,18 @@ export default class app {
         }}></div>
       <div render={() => {
       }} />
-      <div style={
-          height: 50
-      }/>
+      <div style={{
+        height: 50
+      }}/>
       <div
-        style={
-        }
-      ></div>
-      <div
-        style={
+        style={{
           width: 100,
           height: 100
-        }
+        }}
         x="fw"
       />
       <div
-        style={
-        }
+        style={{}}
         x="a"
       ></div>
     </div>
@@ -57,6 +52,7 @@ export default class app {
     )
   }
 }
+
 class Hoge extends React.Component {
   constructor(props) {
     super(props);
@@ -127,12 +123,14 @@ export const Hoge = () => (
   </div>
 )
 
+var x = 1;
+
 ReactDOM.render(
   <div>
     <div>
       {/* jsx comment */}
     </div>
-    <div></div>
+    <div>dfef, fewfwf</div>
     <div></div>
   </div>,
   document.getElementById('body');

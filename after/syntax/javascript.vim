@@ -20,42 +20,34 @@ if exists('s:current_syntax')
   let b:current_syntax = s:current_syntax
 endif
 
-"  <tag></tag>
-" s~~~~~~~~~~~e
-syntax region jsxRegion
-      \ start=+<\z([^ /!?<>"'=:]\+\)+
-      \ skip=+<!--\_.\{-}-->+
-      \ end=+</\z1\_\s\{-}[^(=>)]>+
-      \ end=+>\n\?\s*)\@=+
-      \ end=+>\n\?\s*}\@=+
-      \ end=+>;\@=+
-      \ end=+\n\?\s\*,+
-      \ end=+\s*,\@=+
-      \ end=+\s\+:\@=+
-      \ fold
-      \ contains=jsBlock,jsxTag,jsxCloseTag,jsxComment,jsxEscapeJs,
-                \@Spell
-      \ keepend
-      \ extend
-
 " <tag id="sample">
 " s~~~~~~~~~~~~~~~e
 syntax region jsxTag
-      \ matchgroup=jsxCloseTag
-      \ start=+<[^ }/!?<>"'=:]\@=+
-      \ end=+\/\?>+
+      \ matchgroup=jsxTag start=+<[^ }/!?<>"'=:]\@=+
+      \ matchgroup=jsxTag end=+\/\?>+
       \ contained
       \ contains=jsxTagName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJs
 
 " </tag>
 " ~~~~~~
-syntax region jsxCloseTag
-      \ start=+</[^ /!?<>"'=:]\@=+
-      \ end=+>+
+syntax match jsxEndTag
+      \ +</[^ /!?<>"']\+>+
       \ contained
-      \ contains=jsxCloseString
+      \ contains=jsxEndString
 
-syntax match jsxCloseString
+"  <tag></tag>
+" s~~~~~~~~~~~e
+syntax region jsxRegion
+      \ start=+<\z([^ /!?<>"'=:]\+\)+
+      \ skip=+<!--\_.\{-}-->+
+      \ end=+</\z1\_\s\{-}>+
+      \ matchgroup=jsxEndTag end=+/>+
+      \ fold
+      \ contains=jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJs,jsxString,@Spell
+      \ keepend
+      \ extend
+
+syntax match jsxEndString
     \ +\w\++
     \ contained
 
@@ -117,8 +109,9 @@ highlight def link jsxNameSpace Function
 highlight def link jsxComment Error
 highlight def link jsxAttrib htmlArg
 highlight def link jsxEscapeJs jsxEscapeJs
-highlight def link jsxCloseTag htmlTag
-highlight def link jsxCloseString htmlTagName
+highlight def link jsxTag htmlTag
+highlight def link jsxEndTag htmlTag
+highlight def link jsxEndString htmlTagName
 highlight def link jsxAttributeBraces htmlTag
 
 let b:current_syntax = 'javascript.jsx'
