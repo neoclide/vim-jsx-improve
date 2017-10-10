@@ -26,7 +26,7 @@ syntax region jsxTag
       \ matchgroup=jsxTag start=+<[^ }/!?<>"'=:]\@=+
       \ matchgroup=jsxTag end=+\/\?>+
       \ contained
-      \ contains=jsxTagName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJs
+      \ contains=jsxTagName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes
 
 " </tag>
 " ~~~~~~
@@ -43,7 +43,7 @@ syntax region jsxRegion
       \ end=+</\z1\_\s\{-}>+
       \ matchgroup=jsxEndTag end=+/>+
       \ fold
-      \ contains=jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJs,jsxString,@Spell
+      \ contains=jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,jsxString,@Spell
       \ keepend
       \ extend
 
@@ -89,10 +89,20 @@ syntax region jsxString contained start=+'+ end=+'+ contains=jsxEntity,@Spell di
 
 " <tag key={this.props.key}>
 "          s~~~~~~~~~~~~~~e
-syntax region jsxEscapeJs matchgroup=jsxAttributeBraces
+syntax region jsxEscapeJsAttributes matchgroup=jsxAttributeBraces
     \ contained
     \ start=+{+
     \ end=+}\ze\%(\/\|\n\|\s\|<\|>\)+
+    \ contains=TOP
+    \ keepend
+    \ extend
+
+" <tag>{content}</tag>
+"      s~~~~~~~e
+syntax region jsxEscapeJsContent matchgroup=jsxContentBraces
+    \ contained
+    \ start=+{+
+    \ end=+}+
     \ contains=TOP
     \ keepend
     \ extend
@@ -105,7 +115,7 @@ syntax cluster jsExpression add=jsxRegion
 highlight def link jsxString String
 highlight def link jsxNameSpace Function
 highlight def link jsxComment Error
-highlight def link jsxEscapeJs jsxEscapeJs
+highlight def link jsxEscapeJsAttributes jsxEscapeJsAttributes
 
 if hlexists('htmlTag')
   highlight def link jsxTagName htmlTagName
