@@ -38,7 +38,7 @@ syntax match jsxEndTag
 "  <tag></tag>
 " s~~~~~~~~~~~e
 syntax region jsxRegion
-      \ start=+<\z([^ /!?<>"'=:]\+\)+
+      \ start=+<\z([^ /!?<>"'=:]\+\)[^>]*>+
       \ skip=+<!--\_.\{-}-->+
       \ end=+</\z1\_\s\{-}>+
       \ matchgroup=jsxEndTag end=+/>+
