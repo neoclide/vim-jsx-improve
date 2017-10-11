@@ -35,15 +35,24 @@ syntax match jsxEndTag
       \ contained
       \ contains=jsxEndString
 
+
+"  <tag/>
+" s~~~~~~e
+syntax match jsxSelfClosingTag +<[^ /!?<>"'=:]\+\%(\%(=>\|[>]\@!\_.\)\)\{-}\/>+
+      \ contained
+      \ contains=jsxTag,@Spell
+      \ transparent
+
+
 "  <tag></tag>
 " s~~~~~~~~~~~e
 syntax region jsxRegion
-      \ start=+<\z([^ /!?<>"'=:]\+\)[^>]*>+
+      \ start=+<\z([^ /!?<>"'=:]\+\)+
       \ skip=+<!--\_.\{-}-->+
-      \ end=+</\z1\_\s\{-}>+
-      \ matchgroup=jsxEndTag end=+/>+
+      \ end=+</\z1\_s\{-}>+
+      \ end=+/>+
       \ fold
-      \ contains=jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,jsxString,@Spell
+      \ contains=jsxSelfClosingTag,jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,jsxString,@Spell
       \ keepend
       \ extend
 
@@ -110,7 +119,7 @@ syntax region jsxEscapeJsContent matchgroup=jsxContentBraces
 syntax match jsxIfOperator +?+
 syntax match jsxElseOperator +:+
 
-syntax cluster jsExpression add=jsxRegion
+syntax cluster jsExpression add=jsxRegion,jsxSelfClosingTag
 
 highlight def link jsxString String
 highlight def link jsxNameSpace Function
