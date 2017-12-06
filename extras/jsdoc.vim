@@ -21,7 +21,7 @@ syntax match  jsDocTypeNoParam  contained "\%(#\|\"\|\w\|\.\|:\|\/\)\+"
 syntax match  jsDocParam        contained "\%(#\|\$\|-\|'\|\"\|{.\{-}}\|\w\|\.\|:\|\/\|\[.\{-}]\|=\)\+"
 syntax region jsDocSeeTag       contained matchgroup=jsDocSeeTag start="{" end="}" contains=jsDocTags
 
-if v:version >= 508 || !exists('did_javascript_syn_inits')
+if v:version >= 508 || !exists('g:did_javascript_syn_inits')
   if v:version < 508
     let g:did_javascript_syn_inits = 1
     command -nargs=+ HiLink hi link <args>
