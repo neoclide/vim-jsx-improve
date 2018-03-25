@@ -11,23 +11,23 @@ export default class app {
         />
         <div render={() => {
         }}></div>
-      <div render={() => {
-      }} />
-      <div style={{
-        height: 50
-      }}/>
-      <div
-        style={{
-          width: 100,
-          height: 100
-        }}
-        x="fw"
-      />
-      <div
-        style={{}}
-        x="a"
-      ></div>
-    </div>
+        <div render={() => {
+        }} />
+        <div style={{
+          height: 50
+        }}/>
+        <div
+          style={{
+            width: 100,
+            height: 100
+          }}
+          x="fw"
+        />
+        <div
+          style={{}}
+          x="a"
+        ></div>
+      </div>
     )
   }
   render() {
@@ -133,13 +133,13 @@ ReactDOM.render(
     <div>dfef, fewfwf</div>
     <div></div>
   </div>,
-  document.getElementById('body');
+  document.getElementById('body')
 )
 
 const hoge = () => {
   ReactDOM.render(
     <div></div>,
-    document.getElementById('body');
+    document.getElementById('body')
   );
 }
 
@@ -154,5 +154,5 @@ ReactDOM.render(
     <div></div>
     <div></div>
   </div>,
-  document.getElementById('body');
+  document.getElementById('body')
 )

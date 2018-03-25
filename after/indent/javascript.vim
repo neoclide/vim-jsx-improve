@@ -75,10 +75,10 @@ function! GetJsxIndent()
   let nextsyn = SynEOL(v:lnum + 1)
   let currline = getline(v:lnum)
 
-  if (SynXMLish(prevsyn) || currline =~# '\v^\s*\<') && SynJSXContinues(cursyn, prevsyn)
+  if ((SynXMLish(prevsyn) && SynJSXContinues(cursyn, prevsyn)) || currline =~# '\v^\s*\<')
     let preline = getline(v:lnum - 1)
 
-    if currline =~# '\v^\s*\/?\>'
+    if currline =~# '\v^\s*\/?\>' " /> > 
       return preline =~# '\v^\s*\<' ? indent(v:lnum - 1) : indent(v:lnum - 1) - s:sw()
     endif
 
@@ -131,6 +131,8 @@ function! GetJsxIndent()
       let ind = ind + s:sw()
     " ></a
     elseif preline =~# '\v^\s*\>\<\/\a'
+      let ind = ind + s:sw()
+    elseif preline =~# '\v^\s*}}.+\<\/\k+\>$'
       let ind = ind + s:sw()
     endif
 
