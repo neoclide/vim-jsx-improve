@@ -144,5 +144,9 @@ endif
 
 let b:current_syntax = 'javascript.jsx'
 
+if &ft == 'html'
+  syn region  htmlScriptTag     contained start=+<script+ end=+>+ fold contains=htmlTagN,htmlString,htmlArg,htmlValue,htmlTagError,htmlEvent
+endif
+
 let &cpo = s:jsx_cpo
 unlet s:jsx_cpo
