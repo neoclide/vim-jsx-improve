@@ -99,9 +99,9 @@ syntax region jsxString contained start=+'+ end=+'+ contains=jsxEntity,@Spell di
 " <tag key={this.props.key}>
 "          s~~~~~~~~~~~~~~e
 syntax region jsxEscapeJsAttributes
+    \ matchgroup=jsxAttributeBraces start=+{+
+    \ matchgroup=jsxAttributeBraces end=+}\ze\%(\/\|\n\|\s\|<\|>\)+
     \ contained
-    \ start=+{\zs+
-    \ end=+\ze}\%(\/\|\n\|\s\|<\|>\)+
     \ contains=TOP
     \ keepend
     \ extend
@@ -109,9 +109,9 @@ syntax region jsxEscapeJsAttributes
 " <tag>{content}</tag>
 "      s~~~~~~~e
 syntax region jsxEscapeJsContent
+    \ matchgroup=jsxAttributeBraces start=+{+
+    \ matchgroup=jsxAttributeBraces end=+}+
     \ contained
-    \ start=+{\zs+
-    \ end=+\ze}+
     \ contains=TOP
     \ keepend
     \ extend
@@ -133,6 +133,7 @@ if hlexists('htmlTag')
   highlight def link jsxTag htmlTag
   highlight def link jsxEndTag htmlTag
   highlight def link jsxEndString htmlTagName
+  highlight def link jsxAttributeBraces htmlTag
 else
   highlight def link jsxTagName Statement
   highlight def link jsxEndString Statement
@@ -140,6 +141,7 @@ else
   highlight def link jsxTag Function
   highlight def link jsxEndTag Function
   highlight def link jsxAttrib Type
+  highlight def link jsxAttributeBraces Special
 endif
 
 let b:current_syntax = 'javascript.jsx'
