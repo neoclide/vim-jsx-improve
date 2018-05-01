@@ -99,9 +99,9 @@ syntax region jsxString contained start=+'+ end=+'+ contains=jsxEntity,@Spell di
 " <tag key={this.props.key}>
 "          s~~~~~~~~~~~~~~e
 syntax region jsxEscapeJsAttributes
-    \ start=+{+
-    \ end=+}\%(\/\|\n\|\s\|<\|>\)+
     \ contained
+    \ start=+{\zs+
+    \ end=+\ze}\%(\/\|\n\|\s\|<\|>\)+
     \ contains=TOP
     \ keepend
     \ extend
@@ -109,9 +109,9 @@ syntax region jsxEscapeJsAttributes
 " <tag>{content}</tag>
 "      s~~~~~~~e
 syntax region jsxEscapeJsContent
-    \ matchgroup=jsBraces start=+{+
-    \ matchgroup=jsBraces end=+}+
     \ contained
+    \ start=+{\zs+
+    \ end=+\ze}+
     \ contains=TOP
     \ keepend
     \ extend
