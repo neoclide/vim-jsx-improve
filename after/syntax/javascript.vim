@@ -102,7 +102,7 @@ syntax region jsxEscapeJsAttributes
     \ matchgroup=jsxAttributeBraces start=+{+
     \ matchgroup=jsxAttributeBraces end=+}\ze\%(\/\|\n\|\s\|<\|>\)+
     \ contained
-    \ contains=TOP
+    \ contains=TOP,jsBlock
     \ keepend
     \ extend
 
