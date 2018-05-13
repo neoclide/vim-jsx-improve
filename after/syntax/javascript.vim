@@ -52,7 +52,7 @@ syntax region jsxRegion
       \ end=+</\z1\_s\{-}>+
       \ end=+/>+
       \ fold
-      \ contains=jsxSelfClosingTag,jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,jsxString,@Spell
+      \ contains=jsxSelfClosingTag,jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,@Spell
       \ keepend
       \ extend
 
