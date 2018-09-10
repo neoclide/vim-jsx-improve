@@ -10,7 +10,7 @@ class TodoApp extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = {items: [], text: ''};
+    this.state = { items: [], text: '' };
   }
 
   render() {
@@ -27,7 +27,7 @@ class TodoApp extends React.Component {
   }
 
   handleChange(e) {
-    this.setState({text: e.target.value});
+    this.setState({ text: e.target.value });
   }
 
   handleSubmit(e) {
@@ -61,11 +61,11 @@ class MarkdownEditor extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.state = {value: 'Type some *markdown* here!'};
+    this.state = { value: 'Type some *markdown* here!' };
   }
 
   handleChange() {
-    this.setState({value: this.refs.textarea.value});
+    this.setState({ value: this.refs.textarea.value });
   }
 
   getRawMarkup() {
@@ -82,6 +82,9 @@ class MarkdownEditor extends React.Component {
           ref="textarea"
           defaultValue={this.state.value} />
         <h3>Output</h3>
+        <>
+          <div></div>
+        </>
         <div
           className="content"
           dangerouslySetInnerHTML={this.getRawMarkup()}

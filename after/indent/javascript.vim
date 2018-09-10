@@ -109,7 +109,7 @@ function! GetJsxIndent()
     "   <div>  |   <div>
     "   </div> |   </div>
     " ##);     | );
-    if preline =~# '\v(\s?|\k?)\($'
+    if preline =~# '\v(\s?|\k?)\($' || preline =~# '\v^\s*\<\>'
       return indent(v:lnum - 1) + s:sw()
     endif
 
@@ -123,7 +123,7 @@ function! GetJsxIndent()
     endif
 
     " />
-    if preline =~# '\v^\s*\/?\>$'
+    if preline =~# '\v^\s*\/?\>$' || currline =~# '\v^\s*\<\/\>'
       "let ind = currline =~# '\v^\s*\<\/' ? ind : ind + s:sw()
       let ind = ind + s:sw()
     " }> or }}\> or }}>

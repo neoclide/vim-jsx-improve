@@ -23,7 +23,7 @@ endif
 " <tag id="sample">
 " s~~~~~~~~~~~~~~~e
 syntax region jsxTag
-      \ matchgroup=jsxTag start=+<[^ }/!?<>"'=:]\@=+
+      \ matchgroup=jsxTag start=+<[^ }/!?<"'=:]\@=+
       \ matchgroup=jsxTag end=+\/\?>+
       \ contained
       \ contains=jsxTagName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes
@@ -31,7 +31,7 @@ syntax region jsxTag
 " </tag>
 " ~~~~~~
 syntax match jsxEndTag
-      \ +</[^ /!?<>"']\+>+
+      \ +</[^ /!?<>"']*>+
       \ contained
       \ contains=jsxEndString
 
@@ -47,7 +47,7 @@ syntax match jsxSelfClosingTag +<[^ /!?<>"'=:]\+\%(\%(=>\|[>]\@!\_.\)\)\{-}\/>+
 "  <tag></tag>
 " s~~~~~~~~~~~e
 syntax region jsxRegion
-      \ start=+\%(<\|\w\)\@<!<\z([^ /!?<>"'=:]\+\)+
+      \ start=+\%(<\|\w\)\@<!<\z([^ /!?<>"'=:]*\)+
       \ skip=+<!--\_.\{-}-->+
       \ end=+</\z1\_s\{-}>+
       \ end=+/>+
