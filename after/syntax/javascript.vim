@@ -47,7 +47,7 @@ syntax match jsxSelfClosingTag +<[^ /!?<>"'=:]\+\%(\%(=>\|[>]\@!\_.\)\)\{-}\/>+
 "  <tag></tag>
 " s~~~~~~~~~~~e
 syntax region jsxRegion
-      \ start=+\%(<\|\w\)\@<!<\z([^ /!?<>"'=:]*\)+
+      \ start=+\%(<\|\w\)\@<!<\z([^ /!?<"'=:]\+\)+
       \ skip=+<!--\_.\{-}-->+
       \ end=+</\z1\_s\{-}>+
       \ end=+/>+
