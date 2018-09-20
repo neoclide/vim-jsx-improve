@@ -6,6 +6,8 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+if &ft != 'javascript' | finish | endif
+
 let s:jsx_cpo = &cpo
 set cpo&vim
 
@@ -47,7 +49,8 @@ syntax match jsxSelfClosingTag +<[^ /!?<>"'=:]\+\%(\%(=>\|[>]\@!\_.\)\)\{-}\/>+
 "  <tag></tag>
 " s~~~~~~~~~~~e
 syntax region jsxRegion
-      \ start=+\%(<\|\w\)\@<!<\z([^ /!?<"'=:]\+\)+
+      \ start=+\%(^\|\s\|(\)\zs<\z([^ /!?<>"'=:]\+\)+
+      \ start=+\%(^\|\s\|(\)\zs<\z(\s\{0}\)>+
       \ skip=+<!--\_.\{-}-->+
       \ end=+</\z1\_s\{-}>+
       \ end=+/>+
