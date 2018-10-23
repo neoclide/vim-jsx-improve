@@ -6,7 +6,8 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if &ft != 'javascript' | finish | endif
+" disable on vue or html like files
+if index(['javascript', 'javascript.jsx'], &ft) == -1 | finish | endif
 
 let s:jsx_cpo = &cpo
 set cpo&vim
