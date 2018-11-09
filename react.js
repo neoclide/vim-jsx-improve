@@ -18,7 +18,10 @@ class TodoApp extends React.Component {
     return (
       <div>
         <h3>TODO</h3>
-        <TodoList items={this.state.items} />
+        <TodoList
+          child={<head></head>}
+          getTheadProps={() => <a value={p.createddate}></a>}
+          items={this.state.items} />
         <form onSubmit={this.handleSubmit}>
           <input onChange={this.handleChange} value={this.state.text} />
           <button>{'Add #' + (this.state.items.length + 1)}</button>
