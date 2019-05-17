@@ -36,7 +36,7 @@ syntax region jsxTag
 syntax match jsxEndTag
       \ +</[^ /!?<>"']*>+
       \ contained
-      \ contains=jsxEndString
+      \ contains=jsxEndString,jsxEndComponentName
 
 
 "  <tag/>
@@ -56,7 +56,7 @@ syntax region jsxRegion
       \ end=+</\z1\_s\{-}>+
       \ end=+/>+
       \ fold
-      \ contains=jsxSelfClosingTag,jsxRegion,jsxTag,jsxEndTag,jsxEndComponentName,jsxComment,jsxEntity,jsxEscapeJsContent,@Spell
+      \ contains=jsxSelfClosingTag,jsxRegion,jsxTag,jsxEndTag,jsxComment,jsxEntity,jsxEscapeJsContent,@Spell
       \ keepend
       \ extend
 
@@ -84,16 +84,15 @@ syntax match jsxTagName
 " <someCamel ...>
 "      ~~~~~
 syntax match jsxComponentName
-    \ +[A-Z][\$0-9A-Za-z]\++
+    \ +\<[A-Z][\$0-9A-Za-z]\+\>+
     \ contained
     \ display 
 
 " </MyComponent ...>
 "   ~~~~~~~~~~~
 syntax match jsxEndComponentName
-    " TODO ---
+    \ +\<[A-Z][\$0-9A-Za-z]\+\>+
     \ contained
-    \ display 
 
 " <tag key={this.props.key}>
 "      ~~~
