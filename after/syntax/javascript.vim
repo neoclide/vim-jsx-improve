@@ -29,7 +29,7 @@ syntax region jsxTag
       \ matchgroup=jsxTag start=+<[^ }/!?<"'=:]\@=+
       \ matchgroup=jsxTag end=+\/\?>+
       \ contained
-      \ contains=jsxTagName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes
+      \ contains=jsxTagName,jsxComponentName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes,
 
 " </tag>
 " ~~~~~~
