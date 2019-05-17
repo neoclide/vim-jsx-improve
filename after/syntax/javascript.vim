@@ -142,6 +142,7 @@ highlight def link jsxEscapeJsAttributes jsxEscapeJsAttributes
 
 if hlexists('htmlTag')
   highlight def link jsxTagName htmlTagName
+  highlight def link jsxComponentName htmlTagName
   highlight def link jsxEqual htmlTag
   highlight def link jsxAttrib htmlArg
   highlight def link jsxTag htmlTag
@@ -150,6 +151,7 @@ if hlexists('htmlTag')
   highlight def link jsxAttributeBraces htmlTag
 else
   highlight def link jsxTagName Statement
+  highlight def link jsxComponentName Function
   highlight def link jsxEndString Statement
   highlight def link jsxEqual Function
   highlight def link jsxTag Function
