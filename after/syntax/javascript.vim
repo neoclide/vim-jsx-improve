@@ -91,7 +91,7 @@ syntax match jsxComponentName
 " </MyComponent ...>
 "   ~~~~~~~~~~~
 syntax match jsxEndComponentName
-    \ +\<[A-Z][\$0-9A-Za-z]\+\>+
+    \ +[A-Z][\$0-9A-Za-z]\++
     \ contained
 
 " <tag key={this.props.key}>
