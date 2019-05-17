@@ -151,7 +151,7 @@ if hlexists('htmlTag')
   highlight def link jsxAttributeBraces htmlTag
 else
   highlight def link jsxTagName Statement
-  highlight def link jsxComponentName Function
+  highlight def link jsxComponentName Statement
   highlight def link jsxEndString Statement
   highlight def link jsxEqual Function
   highlight def link jsxTag Function
