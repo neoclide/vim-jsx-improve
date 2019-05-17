@@ -78,6 +78,16 @@ syntax match jsxTagName
     \ contained
     \ display
 
+" <MyComponent ...>
+"  ~~~~~~~~~~~
+" NOT
+" <someCamel ...>
+"      ~~~~~
+syntax match jsxComponentName
+    \ +\<[A-Z][\$0-9A-Za-z]\+\>+
+    \ contained
+    \ display 
+
 " <tag key={this.props.key}>
 "      ~~~
 syntax match jsxAttrib
