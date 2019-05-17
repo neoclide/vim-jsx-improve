@@ -29,7 +29,7 @@ syntax region jsxTag
       \ matchgroup=jsxTag start=+<[^ }/!?<"'=:]\@=+
       \ matchgroup=jsxTag end=+\/\?>+
       \ contained
-      \ contains=jsxTagName,jsxComponentName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes,
+      \ contains=jsxTagName,jsxComponentName,jsxEndComponentName,jsxAttrib,jsxEqual,jsxString,jsxEscapeJsAttributes,
 
 " </tag>
 " ~~~~~~
@@ -150,6 +150,7 @@ highlight def link jsxEscapeJsAttributes jsxEscapeJsAttributes
 if hlexists('htmlTag')
   highlight def link jsxTagName htmlTagName
   highlight def link jsxComponentName htmlTagName
+  highlight def link jsxEndComponentName htmlTagName
   highlight def link jsxEqual htmlTag
   highlight def link jsxAttrib htmlArg
   highlight def link jsxTag htmlTag
@@ -159,6 +160,7 @@ if hlexists('htmlTag')
 else
   highlight def link jsxTagName Statement
   highlight def link jsxComponentName Statement
+  highlight def link jsxEndComponentName Statement
   highlight def link jsxEndString Statement
   highlight def link jsxEqual Function
   highlight def link jsxTag Function
