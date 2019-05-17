@@ -88,6 +88,13 @@ syntax match jsxComponentName
     \ contained
     \ display 
 
+" </MyComponent ...>
+"   ~~~~~~~~~~~
+syntax match jsxEndComponentName
+    \ +</[A-Z][\$0-9A-Za-z]\+\>+
+    \ contained
+    \ display 
+
 " <tag key={this.props.key}>
 "      ~~~
 syntax match jsxAttrib
