@@ -26,7 +26,12 @@ Use pathogen or vundle is recommended. Vundle:
 ### Quick jump to function braces
 
 You can use `[[` `]]` `[]` `][` to quick jump to `{` `}` position of functions, set `g:jsx_improve_motion_disable` to `1` to disable it.
+### New Syntax group
+this is a new syntax group .if you want highlight it ,your colorscheme should  add `jsxEndComponentName` color.
 
+|name|place|
+|---|---|
+|jsxEndComponentName| `</Capitals>`<br />`__~~~~~~~~_` |
 ### GIF
 
 ![2016-12-10 01_27_59](https://cloud.githubusercontent.com/assets/251450/21058283/26d3b946-be78-11e6-8b1e-78e146ec3496.gif)
