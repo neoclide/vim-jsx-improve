@@ -1,4 +1,5 @@
 # vim-jsx-improve
+
 [![](http://img.shields.io/github/issues/neoclide/vim-jsx-improve.svg)](https://github.com/neoclide/vim-jsx-improve/issues)
 [![](http://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
@@ -8,8 +9,8 @@ Javascript syntax from [pangloss/vim-javascript](https://github.com/pangloss/vim
 
 Jsx highlight and indent code changed from [MaxMEllon/vim-jsx-pretty](https://github.com/MaxMEllon/vim-jsx-pretty)
 
-* Fixed syntax highlighting and indentation for React jsx files.
-* Works well with xml.vim
+- Fixed syntax highlighting and indentation for React jsx files.
+- Works well with xml.vim
 
 This plugin have no dependency, all the code you need for jsx and javascript is
 included.
@@ -22,6 +23,11 @@ change some highlight group to make it works with jsx.
 Use pathogen or vundle is recommended. Vundle:
 
     Plugin 'chemzqm/vim-jsx-improve'
+
+This plugin support `javascriptreact` filetype which is introduced on newer
+version of vim8 and neovim.
+
+Use `let g:jsx_improve_javascriptreact = 0` to disable javascriptreact support.
 
 ### Quick jump to function braces
 

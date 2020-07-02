@@ -7,7 +7,7 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " disable on vue or html like files
-if index(['javascript', 'javascript.jsx'], &ft) == -1 | finish | endif
+if index(['javascript.jsx', 'javascriptreact'], &ft) == -1 | finish | endif
 
 let s:jsx_cpo = &cpo
 set cpo&vim
@@ -97,7 +97,7 @@ syntax match jsxEndComponentName
 " <tag key={this.props.key}>
 "      ~~~
 syntax match jsxAttrib
-    \ +[-'"<]\@<!\<[a-zA-Z:_][-.0-9a-zA-Z0-9:_]*\>\(['">]\@!\|\>\|$\)+
+    \ +[-'"<]\@<!\<[a-zA-Z:_][-.0-9a-zA-Z0-9:_]*\>\(['">]\@!\|>\|$\)+
     \ contained
     \ contains=jsxAttribPunct,jsxAttribHook
     \ display
