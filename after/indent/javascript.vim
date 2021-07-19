@@ -61,6 +61,10 @@ function! SynJsxEscapeJs(syns)
   return len(filter(copy(a:syns), 'v:val ==# "jsxEscapeJs"'))
 endfunction
 
+function! SynJsxEscapeJsAttributes(syns)
+  return len(filter(copy(a:syns), 'v:val ==# "jsxEscapeJsAttributes"'))
+endfunction
+
 function! SynJSXContinues(cursyn, prevsyn)
   let curdepth = SynJSXDepth(a:cursyn)
   let prevdepth = SynJSXDepth(a:prevsyn)
@@ -75,7 +79,7 @@ function! GetJsxIndent()
   let nextsyn = SynEOL(v:lnum + 1)
   let currline = getline(v:lnum)
 
-  if ((SynXMLish(prevsyn) && SynJSXContinues(cursyn, prevsyn)) || currline =~# '\v^\s*\<')
+  if ((SynXMLish(prevsyn) && SynJSXContinues(cursyn, prevsyn)) || currline =~# '\v^\s*\<') || SynJsxEscapeJsAttributes(cursyn)
     let preline = getline(v:lnum - 1)
 
     if currline =~# '\v^\s*\/?\>' " /> > 
