@@ -62,6 +62,12 @@ function! SynJsxEscapeJs(syns)
 endfunction
 
 function! SynInJsxEscapeJsAttributes(syns)
+  " return <div { ...{ | return <div { ...{
+  "   x: true,         |   x: true,
+  "     y: false,      |   y: false,##
+  " }} />              | }} />
+  " Expects syns to look something like so:
+  " ['jsFuncBlock', 'jsxRegion', 'jsxSelfClosingTag', 'jsxTag', 'jsxEscapeJsAttributes', 'jsObject']
   return a:syns[len(a:syns) - 2] == 'jsxEscapeJsAttributes'
 endfunction
 
