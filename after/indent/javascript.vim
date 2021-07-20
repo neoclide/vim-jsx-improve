@@ -61,6 +61,16 @@ function! SynJsxEscapeJs(syns)
   return len(filter(copy(a:syns), 'v:val ==# "jsxEscapeJs"'))
 endfunction
 
+function! SynInJsxEscapeJsAttributes(syns)
+  " return <div { ...{ | return <div { ...{
+  "   x: true,         |   x: true,
+  "     y: false,      |   y: false,##
+  " }} />              | }} />
+  " Expects syns to look something like so:
+  " ['jsFuncBlock', 'jsxRegion', 'jsxSelfClosingTag', 'jsxTag', 'jsxEscapeJsAttributes', 'jsObject']
+  return a:syns[len(a:syns) - 2] == 'jsxEscapeJsAttributes'
+endfunction
+
 function! SynJSXContinues(cursyn, prevsyn)
   let curdepth = SynJSXDepth(a:cursyn)
   let prevdepth = SynJSXDepth(a:prevsyn)
@@ -75,7 +85,7 @@ function! GetJsxIndent()
   let nextsyn = SynEOL(v:lnum + 1)
   let currline = getline(v:lnum)
 
-  if ((SynXMLish(prevsyn) && SynJSXContinues(cursyn, prevsyn)) || currline =~# '\v^\s*\<')
+  if ((SynXMLish(prevsyn) && SynJSXContinues(cursyn, prevsyn)) || currline =~# '\v^\s*\<') || SynInJsxEscapeJsAttributes(cursyn)
     let preline = getline(v:lnum - 1)
 
     if currline =~# '\v^\s*\/?\>' " /> > 
