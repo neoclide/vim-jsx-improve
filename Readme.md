@@ -22,7 +22,7 @@ change some highlight group to make it works with jsx.
 
 Use pathogen or vundle is recommended. Vundle:
 
-    Plugin 'chemzqm/vim-jsx-improve'
+    Plugin 'neoclide/vim-jsx-improve'
 
 This plugin support `javascriptreact` filetype which is introduced on newer
 version of vim8 and neovim.
